@@ -36,7 +36,159 @@ It is used to fill in the catalog database with the operators beeing integrated 
 
 In other words, it let IKATS knows how to use the operator in IKATS environment.
 
-TODO Format description here
+#### File naming convention
+
+The name of the catalog file shall be compliant with regexp : `catalog_def(_[0-9]{1,2})?\.json`
+
+* Valid files:
+  * catalog_def.json
+  * catalog_def_03.json
+  * catalog_def_2.json
+* Not valid files:
+  * catalog_def_.json
+  * catalog_def_A.json
+  * catalog_def_012.json
+
+#### Description of the expected JSON content
+
+This aims at providing information about the operator. It intends to be used by IKATS to bind the GUI operator parts (inputs, parameters and outputs) to the Python script operator.
+
+| JSON field  | Type   | Required | Description                                      | Constraints                                                                                                                      |
+|-------------|--------|----------|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| name        | String | Yes      | Implementation name                              | Unique across the IKATS operators database. Shall match regexp `^[a-zA-Z0-9_]+$`                                                 |
+| label       | String | No       | Implementation label                             | Shall reference a unique name in the IKATS operators database or a reference to a newly defined operator in that file            |
+| description | String | No       | Description of the implementation                |                                                                                                                                  |
+| family      | String | Yes      | Family name reference                            | Shall reference a unique family name in IKATS                                                                                    |
+| entry_point | String | Yes      | Path to the entry point of the implementation    | Shall match regexp `^[a-zA-Z0-9_]+[a-zA-Z0-9_.]*[a-zA-Z0-9_]+::[a-zA-Z0-9_]+)`. Corresponds to <module path>::<function to call> |
+| inputs      | Array  | No       | List of inputs (connected to previous operator)  |                                                                                                                                  |
+| parameters  | Array  | No       | List of parameters                               |                                                                                                                                  |
+| outputs     | Array  | Yes      | List of outputs (results)                        |                                                                                                                                  |
+
+##### inputs
+
+Provides the opeartor `inputs` description. One or more `inputs` could be provided, the list is ordered regarding the operator Python script signature.
+
+| JSON field  | Type   | Required | Description                                | Constraints                                                           |
+|-------------|--------|----------|--------------------------------------------|-----------------------------------------------------------------------|
+| name        | String | Yes      | Input name                                 | Unique in all inputs/parameters. Shall match regexp `^[a-zA-Z0-9_]+$` |
+| label       | String | No       | Displayed title for this label             | 8 chars max (recommended for readability)                             |
+| description | String | No       | Description of the input                   |                                                                       |
+| type        | String | Yes      | Type of the input (see allowed types part) |                                                                       |
+
+##### parameters
+
+Provides the operator `parameters` description. One or more `parameters` could be provided, the list is ordered regarding the operator Python script signature.
+
+| JSON field    | Type   | Required | Description                                    | Constraints                                                           |
+|---------------|--------|----------|------------------------------------------------|-----------------------------------------------------------------------|
+| name          | String | Yes      | Parameter name                                 | Unique in all inputs/parameters. Shall match regexp `^[a-zA-Z0-9_]+$` |
+| label         | String | No       | Displayed title for this parameter             | 15 chars max (recommended for readability)                            |
+| description   | String | No       | Description of the parameter                   |                                                                       |
+| type          | String | Yes      | Type of the parameter (see allowed types part) |                                                                       |
+| domain        | String | No       | Value domain (see value domain part)           |                                                                       |
+| default_value | any    | No       | Default value of the parameter.                |                                                                       |
+
+##### outputs
+
+Provides the operator `outputs` description. One or more `outputs` could be provided, the list is ordered regarding the opeartor Python script returns.
+
+| JSON field  | Type   | Required | Description                                 | Constraints                                                 |
+|-------------|--------|----------|---------------------------------------------|-------------------------------------------------------------|
+| name        | String | Yes      | Output name                                 | Unique in all outputs. Shall match regexp `^[a-zA-Z0-9_]+$` |
+| label       | String | No       | Displayed title for this output             | 8 chars max (recommended)                                   |
+| description | String | No       | Description of the output                   |                                                             |
+| type        | String | Yes      | Type of the output (see allowed types part) |                                                             |
+
+#### Example
+
+Given the following Python operator signature:
+
+```python
+def kmeans (tslist, cluster, max_iter, n_init):
+    # Kmeans code here ...
+    return result
+```
+
+The corresponding JSON content could be:
+
+```json
+{
+  "name": "kmeans",
+  "label": "K-Means",
+  "description": "Implementation description ...",
+  "family": "clustering",
+  "entry_point": "ikats.algo.clustering::kmeans",
+  "inputs": [
+    {
+      "name": "tslist",
+      "label": "TS list",
+      "description": "Timeseries references to use",
+      "type": "ts_list"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "cluster",
+      "label": "clusters",
+      "description": "The number of clusters to form as well as the number of centroids to generate",
+      "type": "number",
+      "domain": null,
+      "default_value": 8
+    },
+    {
+      "name": "max_iter",
+      "label": "Max Iter",
+      "description": "Maximum number of iterations of the k-means algorithm for a single run",
+      "type": "number",
+      "domain": null,
+      "default_value": 300
+    },
+    {
+      "name": "n_init",
+      "label": "N init",
+      "description": "Number of time the k-means algorithm will be run with different centroid seeds. The final results will be the best output of n_init consecutive runs in terms of inertia",
+      "type": "number",
+      "domain": null,
+      "default_value": 10
+    }
+  ],
+  "outputs": [
+    {
+      "name": "result",
+      "label": "Result",
+      "description": "Clustering results",
+      "type": "xxx"
+    }
+  ]
+ }
+```
+
+#### Common information
+
+**label Field**:
+
+Label is not mandatory. If not defined, the name is used as label (may be truncated if too long)
+
+**Value domain**:
+
+Value domain is a string describing the domain of possible values. For now, only a discrete series is allowed using the JSON list format.
+
+As an example, if you want to constrain a parameter to 3 values: A, B or C, you shall define the domain field to : `"['A','B','C']"`
+
+**Allowed types**:
+
+Here is the list (*in progress*) of the types to be used by operators
+
+**bool** : boolean (true,false)
+**date** : timestamp (milliseconds since EPOCH). Is formatted to ISO-8601 date in GUI
+**ds_name** : string identifying the dataset name
+**md_list** : list of metadata
+**number** : any number
+**text** : any string
+**list** : selectbox using “domain” field for allowed values
+**ts_list** : list of duet “{tsuid: x, fid: y}” where tsuid is the unique identifier of a TS and fid the Functional Identifier of the TS (human readable version of TSUID)
+**tsuid** : string defining the unique identifier of a TS
+**tsuid_list** : list of TSUID
 
 ## Create your operator
 
@@ -161,7 +313,7 @@ Please use IKATS configuration file located in [ikats-pybase](https://github.com
 
 ```bash
 # Example to call pylint for a specific file with the IKATS configuration
-pylint --rcfile=${path_to_pylint_rc}/pylint.rc ${file_name}
+pylint --rcfile=${path_to_ikats_pybase}/tests/assets/pylint.rc ${file_name}
 ```
 
 ### Documentation
@@ -259,7 +411,7 @@ To test an operator, you have 2 main ways:
 The first one will be used to *fix* and *improve* the behaviour of the **internal** part of the operator and it is up to the
 contributor to set up the test process.
 
-The second way is likely an integration process. It should be used to see how the operator works with IKATS.
+The second way is likely an *integration process*. It should be used to see how the operator works with IKATS.
 Ideally, there should not be any issue inside the operator except at IKATS connections bounds (API calls).
 The operator should be considered as black box.
 
@@ -276,4 +428,8 @@ The operator should be considered as black box.
       ```
 * Start the sandbox: `docker-compose up` (or refer to [repository](https://github.com/IKATS/ikats-sandbox) for more details)
 
-The Python logfile can be printed by using `docker-compose logs -f python_api`
+You should be able to perform your tests directly using the IKATS GUI.
+
+The Python logfile can be printed by using `docker-compose logs -f python_api`.
+
+There is currently no supported way to do remote debugging with IKATS environment.
