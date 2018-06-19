@@ -1,10 +1,10 @@
-# CONTRIBUTING to a operator
+# CONTRIBUTING to an operator
 
 The purpose of this document is to describe how a contributor will develop and propose
 an operator for IKATS.
 
 This document does not focus on the installation of the development means (virtualenv, docker, IDE ...)
-and assume the developer environment is fully operational.
+and assumes that the developer environment is fully operational.
 
 ## Repository content
 
@@ -56,22 +56,26 @@ This aims at providing information about the operator. It intends to be used by 
 | JSON field  | Type   | Required | Description                                      | Constraints                                                                                                                      |
 |-------------|--------|----------|--------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | name        | String | Yes      | Implementation name                              | Unique across the IKATS operators database. Shall match regexp `^[a-zA-Z0-9_]+$`                                                 |
+#Review#176667 label is not required to be unique
 | label       | String | No       | Implementation label                             | Shall reference a unique name in the IKATS operators database or a reference to a newly defined operator in that file            |
 | description | String | No       | Description of the implementation                |                                                                                                                                  |
+#Review#176667 family is optional
+#Review#176667 should point to a paragraph listing allowed families (and saying to do a PR to add a family)
 | family      | String | Yes      | Family name reference                            | Shall reference a unique family name in IKATS                                                                                    |
 | entry_point | String | Yes      | Path to the entry point of the implementation    | Shall match regexp `^[a-zA-Z0-9_]+[a-zA-Z0-9_.]*[a-zA-Z0-9_]+::[a-zA-Z0-9_]+)`. Corresponds to <module path>::<function to call> |
 | inputs      | Array  | No       | List of inputs (connected to previous operator)  |                                                                                                                                  |
 | parameters  | Array  | No       | List of parameters                               |                                                                                                                                  |
+#Review#176667 outputs shall be optional (i.e import metadata)
 | outputs     | Array  | Yes      | List of outputs (results)                        |                                                                                                                                  |
 
 ##### inputs
 
-Provides the opeartor `inputs` description. One or more `inputs` could be provided, the list is ordered regarding the operator Python script signature.
+Provides the operator `inputs` description. One or more `inputs` could be provided, the list is ordered regarding the operator Python script signature.
 
 | JSON field  | Type   | Required | Description                                | Constraints                                                           |
 |-------------|--------|----------|--------------------------------------------|-----------------------------------------------------------------------|
 | name        | String | Yes      | Input name                                 | Unique in all inputs/parameters. Shall match regexp `^[a-zA-Z0-9_]+$` |
-| label       | String | No       | Displayed title for this label             | 8 chars max (recommended for readability)                             |
+| label       | String | No       | Displayed title for this input             | 8 chars max (recommended for readability)                             |
 | description | String | No       | Description of the input                   |                                                                       |
 | type        | String | Yes      | Type of the input (see allowed types part) |                                                                       |
 
@@ -132,6 +136,7 @@ The corresponding JSON content could be:
       "label": "clusters",
       "description": "The number of clusters to form as well as the number of centroids to generate",
       "type": "number",
+#Review#176667 are null allowed ?
       "domain": null,
       "default_value": 8
     },
@@ -179,13 +184,16 @@ As an example, if you want to constrain a parameter to 3 values: A, B or C, you 
 
 Here is the list (*in progress*) of the types to be used by operators
 
+#Review#176667 mise en page : il manque des retours à la ligne entre chaque type
 **bool** : boolean (true,false)
 **date** : timestamp (milliseconds since EPOCH). Is formatted to ISO-8601 date in GUI
 **ds_name** : string identifying the dataset name
+#Review#176667 give an example of metadata list
 **md_list** : list of metadata
 **number** : any number
 **text** : any string
 **list** : selectbox using “domain” field for allowed values
+#Review#176667 precise : tsuid is the unique identifier of a TS *IN DATABASE* (2 occurences in 2 lines)
 **ts_list** : list of duet “{tsuid: x, fid: y}” where tsuid is the unique identifier of a TS and fid the Functional Identifier of the TS (human readable version of TSUID)
 **tsuid** : string defining the unique identifier of a TS
 **tsuid_list** : list of TSUID
@@ -195,10 +203,13 @@ Here is the list (*in progress*) of the types to be used by operators
 ### Prerequisites
 
 * The operator must be developed in Python version compatible with 3.4
+#Review#176667 precise or replace: contributor shall do a PR if he wants to add other libraries into ikats python core
 * Contributor should not add any external python module except inside its own module
 
 List of available python modules:
 
+#Review#176667 provide a sorted list
+#Review#176667 2 libraries lacking compared to /SCM/pybase/assets/requirements.txt
 * Django = 1.8.6
 * eventlet = >= 0.19.0
 * gunicorn = 19.3.0
@@ -321,48 +332,6 @@ pylint --rcfile=${path_to_ikats_pybase}/tests/assets/pylint.rc ${file_name}
 If you need some support from IKATS team, consider commenting your code properly.
 A good start is to have at least 10% of lines as comment.
 
-Operators shall be described using [sphinx doc format](http://www.sphinx-doc.org).
-
-For the wrappers, IKATS team needs the description and type of all parameters and returned values.
-The bigger structure (dict, list of dict, class, complex objects, ...) should be described with an example or with an
-additional description to be sure there is a complete understanding of the parameter/output.
-
-Expected sphinx tags are:
-
-* param
-* type
-* return
-* rtype
-* raise (if needed)
-
-Here below a complete docstring example:
-
-```python
-def compute_slope(ts_list, fid_suffix="_slope", chunk_size=75000, save_new_ts=True):
-    """
-    Compute the slope of a list of timeseries using spark
-
-    This implementation computes slope for one TS at a time in a loop.
-    To know the details of the computation, see the corresponding method
-
-    :param ts_list: list of TS. Each item is a dict composed of a TSUID and a functional id
-    :param fid_suffix: Functional identifier suffix of the final timeseries
-    :param chunk_size: Number of points per chunk (assuming the TS is periodic)
-    :param save_new_ts: True (default) if TS must be saved to database
-
-    :type ts_list: list of dict
-    :type fid_suffix: str
-    :type chunk_size: int
-    :type save_new_ts: bool
-
-    :return: the new list of derived TS (same order as input)
-    :rtype: list of dict
-
-    :raise TypeError: if ts_list type is incompatible
-    """
-    pass
-```
-
 ### Logging rules
 
 Contributor shall use `logging` python standard module to log any kind of information.
@@ -411,6 +380,7 @@ To test an operator, you have 2 main ways:
 The first one will be used to *fix* and *improve* the behaviour of the **internal** part of the operator and it is up to the
 contributor to set up the test process.
 
+#Review#176667 add : sandbox use for testing is required when operator uses ikatsApi or opentsdb or spark
 The second way is likely an *integration process*. It should be used to see how the operator works with IKATS.
 Ideally, there should not be any issue inside the operator except at IKATS connections bounds (API calls).
 The operator should be considered as black box.
@@ -433,3 +403,5 @@ You should be able to perform your tests directly using the IKATS GUI.
 The Python logfile can be printed by using `docker-compose logs -f python_api`.
 
 There is currently no supported way to do remote debugging with IKATS environment.
+
+#Review#176667 a paragraph on spark ikats specific use would be appreciated (version provided, open and close context, ...)
