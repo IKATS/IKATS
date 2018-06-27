@@ -18,7 +18,7 @@ and assumes that the developer environment is fully operational.
 
 ### README.md
 
-For understanding purposes , the `README.md` file should :
+For understanding purposes, the `README.md` file should :
 
 * describe the purpose of the operator
 * give a description of the inputs, ouputs, and parameters to know how to use it
@@ -208,7 +208,7 @@ Here is the list of the types to be used by operators as input/output
 * **tsuid_list** : list of TSUID
 * **sk_model** : model from scikit-learn library
 
-Types are defined [here](https://github.com/IKATS/IKATS/wiki/Allowed-types)
+Types are defined [here](IKATS_types.md)
 
 ## Create your operator
 
