@@ -4,7 +4,6 @@ This page reference the complete list of types handled by IKATS.
 
 WORK IN PROGRESS
 
-
 * **bool** : boolean (true,false)
 * **correlation_dataset** : aggregation model of a set of correlation matrices
 * **date** : timestamp (milliseconds since EPOCH). Is formatted to ISO-8601 date in GUI

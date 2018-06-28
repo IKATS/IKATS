@@ -271,12 +271,12 @@ For now, there is no strong rules to name a metadata or a functional id (human r
 Keep in mind we have some naming convention:
 
 * Functional id and metadata should be compliant with regexp `^[a-zA-Z0-9][a-zA-Z0-9_-]+[a-zA-Z0-9]$`
-* Ikats computed metadata name are compliant with regexp `^(ikats|qual)_.[a-zA-Z0-9_-]+[a-zA-Z0-9]$`
+* IKATS computed metadata name are compliant with regexp `^(ikats|qual)_.[a-zA-Z0-9_-]+[a-zA-Z0-9]$`
 
 Almost full usage Examples:
 
 ```python
-# Import Ikats API
+# Import IKATS API
 from ikats.core.resource.api import IkatsApi
 
 # Defining data as numpy array (1st col is timestamp, 2nd col is value)
