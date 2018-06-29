@@ -69,7 +69,7 @@ This aims at providing information about the viztool. It intends to be used by I
 | JSON field | Type    | Required | Description                                                                                                              | Constraints                                                                     |
 | ---------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | name       | String  | Yes      | Viztool internal name                                                                                                    | Unique across the IKATS viztools database. Shall match regexp `^[a-zA-Z0-9_]+$` |
-| type       | Array   | Yes      | list of accepted type for input ([see this page](IKATS_types.md) for list of allowed types                               |                                                                                 |
+| type       | Array   | Yes      | list of accepted type for input ([see this page](IKATS_types.md)) for list of allowed types                               |                                                                                 |
 | classRef   | `Class` | Yes      | Internal class name extending `VizTool`                                                                                  | Shall be a valid className, **not a string**!                                   |
 | keyMap     | Object  | No       | Keyboard shortcuts used by this viztool where the *key* is the shortcut and the *value* is the description of the action |                                                                                 |
 | desc       | String  | No       | Global description of the viztool                                                                                        |                                                                                 |
@@ -119,15 +119,14 @@ To develop a VizTool, there are few prerequisites:
 * VizTool must be written in `ES5` or `ES6`
 * VizTool must not use `AngularJS`
 * A VizTool must implement [the template provided in Git repository.](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizToolsImplems/ExampleTemplate.js)
-* You should only use available javascript libraries or package their own libraries
-
-List of available javascript libraries is available [here](https://github.com/IKATS/gui-builder/NOTICE)
+* You should only use available javascript libraries in the IKATS GUI or package your own libraries and declare them into the [manifest.json](#manifestjson)
+  * List of available javascript libraries is available [here](https://github.com/IKATS/gui-builder/NOTICE)
 
 ### JS API Explanation
 
 In order to manipulate IKATS data (time series, meta data, ...), you may use IKATS API on client side.
 This API can be found under `ikats.api` in your code.
-The several endpoints are able to be consulted into the `ikats_api.js` file (located in `gui-builder` [`src/js`](https://github.com/IKATS/gui-builder/blob/master/src/js/ikats_api.js)), each resource to manipulate are located in a sub variable (ex : timeseries are under `ikats.api.ts`, metadata are availabled under `ikats.api.md`, ...).
+The several endpoints are able to be consulted into the `ikats_api.js` file (located in `gui-builder` [`src/js (latest version)`](https://github.com/IKATS/gui-builder/blob/master/src/js/ikats_api.js)), each resource to manipulate are located in a sub variable (ex : timeseries are under `ikats.api.ts`, metadata are availabled under `ikats.api.md`, ...).
 
 Example usage for reading a time series :
 
