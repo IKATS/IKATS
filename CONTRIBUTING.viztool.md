@@ -214,3 +214,6 @@ About the verbosity/level:
 * **console.info** should be used to log information over performances (rendering time, number of points loaded,...)
 * **console.log** can be used for any information. No limitation.
 * ~~**console.debug**~~ should be reserved for development purposes and should not be present in delivered packages.
+
+### Test your VizTool in the IKATS Sandbox
+> REVIEW#176690 : rajouter la partie permettant de tester la visu dans la sandbox
