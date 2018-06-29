@@ -3,8 +3,7 @@
 The purpose of this document is to describe how a contributor will develop and propose
 a viztool for IKATS.
 
-This document does not focus on the installation of the development means (docker, IDE ...)
-and assumes that the developer environment is fully operational.
+This document does not focus on the installation of the development means (docker, IDE ...) and assumes that the developer environment is fully operational. For contributors that already have installed the [IKATS Sandbox](https://github.com/IKATS/ikats-sandbox), all the environnement for Docker and git is setup.
 
 ## Definitions
 
@@ -20,10 +19,10 @@ List of some terms used in this document
 
 ## Repository content
 
-* A viztool repository begins with `vt-` to quickly identify it
+* A viztool repository begins with `vt-` to quickly identify it. This an internal practice used for our scripts, you could choose to ignore it.
 * It is composed of at least the following files (detailed below):
   * `LICENSE`: License of the contribution
-  * `NOTICE`: To list all the dependencies of the contribution
+  * `NOTICE`: To list all the dependencies of the contribution. That document is a good practice and [is mandatory for Apache Licence, version 2](http://apache.org/dev/apply-license.html).
   * `README.md`: Description of the viztool
   * `viztool_def.json`: definition of the viztool in the catalog
   * `manifest.json`: definition of the inlude order and libraries used
