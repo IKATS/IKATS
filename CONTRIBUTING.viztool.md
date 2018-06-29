@@ -38,13 +38,9 @@ For understanding purposes, the `README.md` file should :
 ### manifest.json
 
 To handle multiple resources files, this file will help IKATS to know the inclusion order.
-This file is a JSON composed of at most 3 parts : `js`, `css` and `lib`.
-
+This file is a JSON composed of 2 parts :
 * `js` : a list of javascript paths (relative to git repository folder: `vt-*`) sorted by import order
 * `css` : a list of CSS file paths (relative to git repository folder: `vt-*`) sorted by import order
-* `lib` : a list of tiers libraries name (this part is only informative). Each item of the list is composed of:
-  * `name`: the name of the library
-  * `version`: its version
 
 Example:
 
@@ -53,19 +49,8 @@ Example:
   "js": [
     "vt-curve/D3Curve.js"
   ],
-  "lib": [
-    {
-      "name": "d3",
-      "version": "4.4.0"
-    },
-    {
-      "name": "jquery",
-      "version": "3.2.1"
-    },
-    {
-      "name": "bootstrap",
-      "version": "3.3.7"
-    }
+  "css": [
+    "vt-curve/css/custom.css"
   ]
 }
 ```
