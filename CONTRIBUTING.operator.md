@@ -3,15 +3,14 @@
 The purpose of this document is to describe how a contributor will develop and propose
 an operator for IKATS.
 
-This document does not focus on the installation of the development means (virtualenv, docker, IDE ...)
-and assumes that the developer environment is fully operational.
+This document does not focus on the installation of the development means (virtualenv, docker, IDE ...) and assumes that the developer environment is fully operational. For contributors that already have installed the [IKATS Sandbox](https://github.com/IKATS/ikats-sandbox), all the environnement for Docker and Git is setup.
 
 ## Repository content
 
-* An operator repository begins with `op-` to quickly identify it
+* An operator repository begins with `op-` to quickly identify it. This an internal practice used for our scripts, you could choose to ignore it.
 * It is composed of at least the following files (detailed below):
   * `LICENSE`: License of the contribution
-  * `NOTICE`: To list all the dependencies of the contribution
+  * `NOTICE`: To list all the dependencies of the contribution. That document is a good practice and [is mandatory for Apache Licence, version 2](http://apache.org/dev/apply-license.html).
   * `README.md`: Description of the operator
   * `catalog_def.json`: definition of the operator in the catalog
   * *operator_name* folder: folder containing the python code (The folder containing the python code shall be the same name as repository name without `op-` (ie. `op-my_operator/my_operator/my_code_here.py`)).
