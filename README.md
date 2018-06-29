@@ -1,19 +1,17 @@
-![IKATS Logo](https://ikats.github.io/img/Logo-ikats-icon.png) IKATS Main Architecture
-=======================
+# ![IKATS Logo](https://ikats.github.io/img/Logo-ikats-icon.png) IKATS Main Architecture
 
 IKATS project is composed of following github repositories :
 
-_IKATS environnement_
-* [ikats.github.io](https://github.com/IKATS/ikats.github.io) : ikats website
-* [ikats-sandbox](https://github.com/IKATS/ikats-sandbox) : ikats sandbox to play with IKATS
-
-_IKATS software core_:
-* [ikats-ingestion](https://github.com/IKATS/ikats-ingestion) : ikats data ingestion application
-* [ikats-datamodel](https://github.com/IKATS/ikats-datamodel) : java resources API (and java algorithms)
-* [ikats-hmi](https://github.com/IKATS/ikats-hmi) : IKATS Graphical User Interface (javascript)
-* [ikats-pybase](https://github.com/IKATS/ikats-pybase) : python core of IKATS (for algorithms  : catalog management and running engine)
-* [ikats-pyalgo](https://github.com/IKATS/ikats-pyalgo) : python algorithms developed in IKATS
-* [ikats-baseimages](https://github.com/IKATS/ikats-baseimages) : docker base stack components  
+- _IKATS environnement_
+  - [ikats.github.io](https://github.com/IKATS/ikats.github.io) : IKATS website
+  - [ikats-sandbox](https://github.com/IKATS/ikats-sandbox) : sandbox to play with IKATS
+- _IKATS software core_:
+  - [ikats-ingestion](https://github.com/IKATS/ikats-ingestion) : IKATS data ingestion application
+  - [ikats-datamodel](https://github.com/IKATS/ikats-datamodel) : java resources API (and java algorithms)
+  - [ikats-hmi](https://github.com/IKATS/ikats-hmi) : IKATS Graphical User Interface (javascript)
+  - [ikats-pybase](https://github.com/IKATS/ikats-pybase) : python core of IKATS (for algorithms : catalog management and running engine)
+  - [ikats-pyalgo](https://github.com/IKATS/ikats-pyalgo) : python algorithms developed in IKATS
+  - [ikats-baseimages](https://github.com/IKATS/ikats-baseimages) : docker base stack components
 
 ## Logical infrastructure
 
@@ -24,13 +22,13 @@ These choices improve the **scalability** and the **reliability** of the applica
 IKATS is designed to be deployed on a cluster with following architecture :
 
 ![Doc Archi](img/LogicalView.png)  
-**NB :**  
+**NB :**
+
 - ikats-pybase is included in ikats-pyalgo when deployed
 - ikats-base matches ikats-datamodel
 
-
-
 ## Physical infrastructure
+
 In order to implement the above logical structure, IKATS can be deployed on a cluster composed of a set of virtual machines. You can use as many virtual machines as you need according to the needed computing power. For example, by deploying additional **Worker Nodes**, you increase the amount of data that can be computed and/or the computing celerity of algorithms and visualization tools.
 
 **(This is an Example)**  
@@ -38,11 +36,13 @@ Following properties in terms of resource (vcpu/RAM per node) can be used for a 
 ![Doc Archi](img/PhysicalView.png)
 
 ## Third party components
+
 IKATS uses following components :
-* HDFS Hbase
-* Spark
-* Scikit-learn
-* Open TSDB
-* PostgreSQL
-* Numpy
-* Docker
+
+- HDFS Hbase
+- Spark
+- Scikit-learn
+- Open TSDB
+- PostgreSQL
+- Numpy
+- Docker

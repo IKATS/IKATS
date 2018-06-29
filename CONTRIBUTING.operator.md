@@ -3,22 +3,21 @@
 The purpose of this document is to describe how a contributor will develop and propose
 an operator for IKATS.
 
-This document does not focus on the installation of the development means (virtualenv, docker, IDE ...)
-and assumes that the developer environment is fully operational.
+This document does not focus on the installation of the development means (virtualenv, docker, IDE ...) and assumes that the developer environment is fully operational. For contributors that already have installed the [IKATS Sandbox](https://github.com/IKATS/ikats-sandbox), all the environnement for Docker and Git is setup.
 
 ## Repository content
 
-* An operator repository begins with `op-` to quickly identify it
+* An operator repository begins with `op-` to quickly identify it. This an internal practice used for our scripts, you could choose to ignore it.
 * It is composed of at least the following files (detailed below):
   * `LICENSE`: License of the contribution
-  * `NOTICE`: To list all the dependencies of the contribution
+  * `NOTICE`: To list all the dependencies of the contribution. That document is a good practice and [is mandatory for Apache Licence, version 2](http://apache.org/dev/apply-license.html).
   * `README.md`: Description of the operator
   * `catalog_def.json`: definition of the operator in the catalog
   * *operator_name* folder: folder containing the python code (The folder containing the python code shall be the same name as repository name without `op-` (ie. `op-my_operator/my_operator/my_code_here.py`)).
 
 ### README.md
 
-For understanding purposes , the `README.md` file should :
+For understanding purposes, the `README.md` file should :
 
 * describe the purpose of the operator
 * give a description of the inputs, ouputs, and parameters to know how to use it
@@ -208,7 +207,7 @@ Here is the list of the types to be used by operators as input/output
 * **tsuid_list** : list of TSUID
 * **sk_model** : model from scikit-learn library
 
-Types are defined [here](https://github.com/IKATS/IKATS/wiki/Allowed-types)
+Types are defined [here](IKATS_types.md)
 
 ## Create your operator
 
@@ -271,12 +270,12 @@ For now, there is no strong rules to name a metadata or a functional id (human r
 Keep in mind we have some naming convention:
 
 * Functional id and metadata should be compliant with regexp `^[a-zA-Z0-9][a-zA-Z0-9_-]+[a-zA-Z0-9]$`
-* Ikats computed metadata name are compliant with regexp `^(ikats|qual)_.[a-zA-Z0-9_-]+[a-zA-Z0-9]$`
+* IKATS computed metadata name are compliant with regexp `^(ikats|qual)_.[a-zA-Z0-9_-]+[a-zA-Z0-9]$`
 
 Almost full usage Examples:
 
 ```python
-# Import Ikats API
+# Import IKATS API
 from ikats.core.resource.api import IkatsApi
 
 # Defining data as numpy array (1st col is timestamp, 2nd col is value)
