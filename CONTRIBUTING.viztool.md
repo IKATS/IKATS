@@ -10,12 +10,12 @@ This document does not focus on the installation of the development means (docke
 List of some terms used in this document
 
 * **VizEngine** : The _VizEngine_ is a GUI component managing and suggesting _VizTools_ according to the type of an _operator_ output, in a workflow.
-  The _VizEngine_ also handle a _VizTool_ chain (represented in GUI by a bread-crumb).
+  The _VizEngine_ also handles a _VizTool_ chain (represented in GUI by a bread-crumb).
 * **VizTool** : the graphical container displayed on GUI allowing to visualize the output of an _operator_
   A _VizTool_ is called so if and only if :
   * the code building the container implements the _VizTool_ class,
   * the _VizTool_ is made available in the GUI for one or several IKATS [functional types](IKATS_types.md),
-  * the _VizTool_ have to be available into the _VizToolsLibrary_,
+  * the _VizTool_ has to be available into the _VizToolsLibrary_,
 
 ## Repository content
 
@@ -25,7 +25,7 @@ List of some terms used in this document
   * `NOTICE`: To list all the dependencies of the contribution. That document is a good practice and [is mandatory for Apache Licence, version 2](http://apache.org/dev/apply-license.html).
   * `README.md`: Description of the viztool
   * `viztool_def.json`: definition of the viztool in the catalog
-  * `manifest.json`: definition of the inlude order and libraries used
+  * `manifest.json`: definition of the includes order and libraries used
   * `*.js`: viztool code implementing the _VizTool_ class
 
 ### README.md
@@ -39,6 +39,7 @@ For understanding purposes, the `README.md` file should :
 
 To handle multiple resources files, this file will help IKATS to know the inclusion order.
 This file is a JSON composed of 2 parts :
+
 * `js` : a list of javascript paths (relative to git repository folder: `vt-*`) sorted by import order
 * `css` : a list of CSS file paths (relative to git repository folder: `vt-*`) sorted by import order
 
@@ -69,7 +70,7 @@ This aims at providing information about the viztool. It intends to be used by I
 | JSON field | Type    | Required | Description                                                                                                              | Constraints                                                                     |
 | ---------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
 | name       | String  | Yes      | Viztool internal name                                                                                                    | Unique across the IKATS viztools database. Shall match regexp `^[a-zA-Z0-9_]+$` |
-| type       | Array   | Yes      | list of accepted type for input ([see this page](IKATS_types.md)) for list of allowed types                               |                                                                                 |
+| type       | Array   | Yes      | list of accepted type for input ([see this page](IKATS_types.md)) for list of allowed types                              |                                                                                 |
 | classRef   | `Class` | Yes      | Internal class name extending `VizTool`                                                                                  | Shall be a valid className, **not a string**!                                   |
 | keyMap     | Object  | No       | Keyboard shortcuts used by this viztool where the *key* is the shortcut and the *value* is the description of the action |                                                                                 |
 | desc       | String  | No       | Global description of the viztool                                                                                        |                                                                                 |
@@ -118,7 +119,7 @@ To develop a VizTool, there are few prerequisites:
 
 * VizTool must be written in `ES5` or `ES6`
 * VizTool must not use `AngularJS`
-* A VizTool must implement [the template provided in Git repository.](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizToolsImplems/ExampleTemplate.js)
+* A VizTool must implement [the template provided in Git repository (latest version)](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizToolsImplems/ExampleTemplate.js)
 * You should only use available javascript libraries in the IKATS GUI or package your own libraries and declare them into the [manifest.json](#manifestjson)
   * List of available javascript libraries is available [here](https://github.com/IKATS/gui-builder/NOTICE)
 
@@ -216,4 +217,26 @@ About the verbosity/level:
 * ~~**console.debug**~~ should be reserved for development purposes and should not be present in delivered packages.
 
 ### Test your VizTool in the IKATS Sandbox
-> REVIEW#176690 : rajouter la partie permettant de tester la visu dans la sandbox
+
+* Prepare your environment
+  * Download the [IKATS sandbox](https://github.com/IKATS/ikats-sandbox)
+  * Before starting the sandbox, do some changes in the sandbox project
+    * Create a `vt-repo-list.yml` file with the following line `- url:/app/local/vt/my_viztool`
+    * In `docker-compose.yml`, find the `gui-builder` service and append new volumes:
+      ```yaml
+      - <path_to_your_viztool>:/app/local/vt/my_viztool:ro
+      - ./vt-repo-list.yml:/app/repo-list.yml
+      ```
+* Start the sandbox: `docker-compose up` (or refer to [repository](https://github.com/IKATS/ikats-sandbox) for more details)
+
+You should be able to perform your tests directly using the IKATS GUI.
+
+### Output builder
+
+In GUI, you can use `output builder` operator to prepare the output content to be used by your viztool.
+
+* Drop it to the *workflow area*
+* Write the functional type you declared in [`viztool_def.json`](#viztool_defjson) (field `name`) to let IKATS connect your viztool to the output
+* Paste the raw data
+* If needed, tick *JSON* to create a `JS Object` based on raw content interpretation.
+* Click on `Run` button and double-click on operator to reveal the *results panel* where you can select your viztool

@@ -1,6 +1,6 @@
 # Functional types
 
-This page reference the complete list of types handled by IKATS.
+This page references the complete list of types handled by IKATS.
 
 > This document will be updated with more details. Contact dev@ikats.org if you need more information.
 
