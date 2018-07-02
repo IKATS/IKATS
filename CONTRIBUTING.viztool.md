@@ -28,6 +28,8 @@ List of some terms used in this document
   * `manifest.json`: definition of the includes order and libraries used
   * `*.js`: viztool code implementing the _VizTool_ class
 
+You can have a look at some [IKATS viztools](https://github.com/IKATS?q=vt-) for some examples
+
 ### README.md
 
 For understanding purposes, the `README.md` file should :
@@ -67,13 +69,13 @@ In other words, it let IKATS knows how to use the viztool in IKATS environment.
 
 This aims at providing information about the viztool. It intends to be used by IKATS to bind the GUI viztool parts (inputs, parameters and outputs) to the javascript script viztool.
 
-| JSON field | Type    | Required | Description                                                                                                              | Constraints                                                                     |
-| ---------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------- |
-| name       | String  | Yes      | Viztool internal name                                                                                                    | Unique across the IKATS viztools database. Shall match regexp `^[a-zA-Z0-9_]+$` |
-| type       | Array   | Yes      | list of accepted type for input ([see this page](IKATS_types.md)) for list of allowed types                              |                                                                                 |
-| classRef   | `Class` | Yes      | Internal class name extending `VizTool`                                                                                  | Shall be a valid className, **not a string**!                                   |
-| keyMap     | Object  | No       | Keyboard shortcuts used by this viztool where the *key* is the shortcut and the *value* is the description of the action |                                                                                 |
-| desc       | String  | No       | Global description of the viztool                                                                                        |                                                                                 |
+| JSON field | Type    | Required | Description                                                                                                                         | Constraints                                                                     |
+| ---------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| name       | String  | Yes      | Viztool internal name                                                                                                               | Unique across the IKATS viztools database. Shall match regexp `^[a-zA-Z0-9_]+$` |
+| types      | Array   | Yes      | list of allowed input types. ([see this page](IKATS_types.md))                                                                      |                                                                                 |
+| classRef   | `Class` | Yes      | Internal class name extending `VizTool`                                                                                             | Shall be a valid className, **not a string**!                                   |
+| keyMap     | Object  | No       | Keyboard shortcuts helping user to understand viztools features. `key` is the shortcut and `value` is the description of the action |                                                                                 |
+| desc       | String  | No       | Global description of the viztool                                                                                                   |                                                                                 |
 
 #### Example
 
@@ -119,7 +121,7 @@ To develop a VizTool, there are few prerequisites:
 
 * VizTool must be written in `ES5` or `ES6`
 * VizTool must not use `AngularJS`
-* A VizTool must implement [the template provided in Git repository (latest version)](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizToolsImplems/ExampleTemplate.js)
+* Your contribution has to extend(implement) the [`VizTool` class](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizTool.js) as [template provided in Git repository (latest version)](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizToolsImplems/ExampleTemplate.js)
 * You should only use available javascript libraries in the IKATS GUI or package your own libraries and declare them into the [manifest.json](#manifestjson)
   * List of available javascript libraries is available [here](https://github.com/IKATS/gui-builder/NOTICE)
 
@@ -150,8 +152,6 @@ Async version is written with the specification of the async parameter to true a
 * `success` : called when the result of the call is OK
 * `error` : called when an error occurred during the call
 * `complete` : called after completion of `success` or `error` (only one time)
-
-You can have a look at some [IKATS viztools](https://github.com/IKATS?q=vt-) for some examples
 
 ### Coding rules
 
