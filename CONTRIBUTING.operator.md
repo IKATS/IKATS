@@ -7,37 +7,36 @@ This document does not focus on the installation of the development means (virtu
 
 ## Repository content
 
-* An operator repository begins with `op-` to quickly identify it. This an internal practice used for our scripts, you could choose to ignore it.
+* An operator repository begins with `op-` to quickly identify it. This is an internal practice used for our scripts, you could choose to ignore it.
 * It is composed of at least the following files (detailed below):
-  * `LICENSE`: License of the contribution
-  * `NOTICE`: To list all the dependencies of the contribution. That document is a good practice and [is mandatory for Apache Licence, version 2](http://apache.org/dev/apply-license.html).
-  * `README.md`: Description of the operator
-  * `catalog_def.json`: definition of the operator in the catalog
-  * *operator_name* folder: folder containing the python code (The folder containing the python code shall be the same name as repository name without `op-` (ie. `op-my_operator/my_operator/my_code_here.py`)).
+  * `LICENSE`: license of the contribution
+  * `NOTICE`: to list all the dependencies of the contribution. That document is a good practice and [is mandatory for Apache Licence, version 2](http://apache.org/dev/apply-license.html).
+  * `README.md`: description of the operator for both the user and the developer
+  * `catalog_def.json`: definition of the operator in the catalog (the list of operators and their associated information)
+  * *operator_name* folder: folder containing the python code (The folder containing the python code shall have the same name as repository name without `op-` (ie. `op-my_operator/my_operator/my_code_here.py`)).
 
 ### README.md
 
-For understanding purposes, the `README.md` file should :
+For understanding purposes, the `README.md` file should:
 
 * describe the purpose of the operator
 * give a description of the inputs, ouputs, and parameters to know how to use it
-* a paragraph about the interaction with IKATS
+* contain a paragraph about the interaction with IKATS
   * Wrappers (entry point of the operator for IKATS call)
   * IKATS API calls used by operator
-  * Spark usage
   * Other resources readings/writings
 * explain some aspects of the internal behaviour (this can be described in another file)
 
 ### catalog_def.json
 
 This file will be read at startup.
-It is used to fill in the catalog database with the operators beeing integrated to the current instance.
+It is used to fill in the catalog database with the operators being integrated to the current instance.
 
 In other words, it let IKATS knows how to use the operator in IKATS environment.
 
 #### File naming convention
 
-The name of the catalog file shall be compliant with regexp : `catalog_def(_[0-9]{1,2})?\.json`
+The name of the catalog file shall be compliant with regexp: `catalog_def(_[0-9]{1,2})?\.json`
 
 * Valid files:
   * catalog_def.json
@@ -65,17 +64,17 @@ This aims at providing information about the operator. It intends to be used by 
 
 List of allowed families:
 
-* `Stats__TS_Correlation_Computation`: Set of correlation functions, applied on Time series
-* `Stats__TS_Stats`: Set of functions about statistics features on Time series
-* `Preprocessing_TS__Reduction`: Set of pre-processing functions which reduce information of Time series
-* `Preprocessing_TS__Cleaning`: Set of pre-processing functions which are cleaning the information of Time series.
-* `Preprocessing_TS__Transforming`: Set of pre-processing functions which are transforming the Time series: not classified as cleaning, or reduction functions.
-* `Data_Modeling__Supervised_Learning`: Supervised learning
-* `Data_Exploration`: Functions exploring the data: searches, highlighs some element, ...
-* `Data_Modeling__Unsupervised_Learning`: Collection of Unsupervised learning agorithms
-* `supervised_learning`: This family contains all supervised learning algorithms
+* `Stats__TS_Correlation_Computation`: set of correlation functions, applied on Time series
+* `Stats__TS_Stats`: set of functions about statistics features on Time series
+* `Preprocessing_TS__Reduction`: set of pre-processing functions which reduce information of Time series
+* `Preprocessing_TS__Cleaning`: set of pre-processing functions which are cleaning the information of Time series.
+* `Preprocessing_TS__Transforming`: set of pre-processing functions which are transforming the Time series: not classified as cleaning, or reduction functions.
+* `Data_Modeling__Supervised_Learning`: supervised learning
+* `Data_Exploration`: functions exploring the data: searches, highlighs some element, ...
+* `Data_Modeling__Unsupervised_Learning`: collection of Unsupervised learning agorithms
+* `supervised_learning`: this family contains all supervised learning algorithms
 
-Please do a PR if none of above families match your operator
+Please do a PR if none of above families matches your operator
 
 ##### inputs
 
@@ -175,7 +174,7 @@ The corresponding JSON content could be:
 
 #### Common information
 
-**label Field**:
+**Label field**:
 
 Label is not mandatory. If not defined, the name is used as label (may be truncated if too long)
 
@@ -183,31 +182,11 @@ Label is not mandatory. If not defined, the name is used as label (may be trunca
 
 Value domain is a string describing the domain of possible values. For now, only a discrete series is allowed using the JSON list format.
 
-As an example, if you want to constrain a parameter to 3 values: A, B or C, you shall define the domain field to : `"['A','B','C']"`
+As an example, if you want to constrain a parameter to 3 values: A, B or C, you shall define the domain field to: `"['A','B','C']"`
 
 **Allowed types**:
 
-Here is the list of the types to be used by operators as input/output
-
-* **bool** : boolean (true,false)
-* **correlation_dataset** : aggregation model of a set of correlation matrices
-* **date** : timestamp (milliseconds since EPOCH). Is formatted to ISO-8601 date in GUI
-* **dot** : DOT format proposed by graphviz dot tool
-* **ds_name** : string identifying the dataset name
-* **kmeans_mds** : list of grouped TS used to store and to visualize k-means algorithms results
-* **list** : selectbox using `domain` field for allowed values
-* **md_list** : list of metadata where format is: `{tsuid1: {metadataName1 : metadataValue1, ...}, ...}`
-* **number** : any number
-* **pattern_groups** : list of grouped patterns used to store and to visualize search patterns algorithms results
-* **table** : JSON structure defining a table
-* **text** : any string
-* **ts_bucket** : list of timeseries definitions, augmented with flags.
-* **ts_list** : list of duet `{tsuid: x, funcId: y}` where `tsuid` is the unique identifier of a TS in database and `funcId` the Functional Identifier of the TS (human readable version of `TSUID`)
-* **tsuid** : string defining the unique identifier of a TS in database
-* **tsuid_list** : list of TSUID
-* **sk_model** : model from scikit-learn library
-
-Types are defined [here](IKATS_types.md)
+The list of the types to be used by operators as input/output is defined [here](IKATS_types.md)
 
 ## Create your operator
 
@@ -218,34 +197,34 @@ Types are defined [here](IKATS_types.md)
 
 List of available python modules:
 
-* cffi : 1.8.3
-* Django : 1.8.6
-* django-cors-headers : 2.1.0
-* djangorecipe : 2.2.1
-* eventlet : 0.20.1
-* fastdtw : 0.3.0
-* flake8 : 3.0.4
-* greenlet : 0.4.12
-* gunicorn : 19.3.0
-* httpretty : 0.8.14
-* mccabe : 0.5.2
-* mock : 1.3.0
-* natsort : 5.0.2
-* numpy : 1.11.2
-* pbr : 1.10.0
-* psycopg2 : 2.7.3.1
-* py4j : 0.10.3
-* pycodestyle : 2.0.0
-* pycparser : 2.17
-* pyflakes : 1.2.3
+* cffi: 1.8.3
+* Django: 1.8.6
+* django-cors-headers: 2.1.0
+* djangorecipe: 2.2.1
+* eventlet: 0.20.1
+* fastdtw: 0.3.0
+* flake8: 3.0.4
+* greenlet: 0.4.12
+* gunicorn: 19.3.0
+* httpretty: 0.8.14
+* mccabe: 0.5.2
+* mock: 1.3.0
+* natsort: 5.0.2
+* numpy: 1.11.2
+* pbr: 1.10.0
+* psycopg2: 2.7.3.1
+* py4j: 0.10.3
+* pycodestyle: 2.0.0
+* pycparser: 2.17
+* pyflakes: 1.2.3
 * python-dateutil==2.6.0
-* requests : 2.8.1
-* scikit-learn : 0.19.1
-* scipy : 0.18.1
-* setuptools : 33.1.1
-* six : 1.10.0
-* zc.buildout : 2.5.3
-* zc.recipe.egg : 2.0.3
+* requests: 2.8.1
+* scikit-learn: 0.19.1
+* scipy: 0.18.1
+* setuptools: 33.1.1
+* six: 1.10.0
+* zc.buildout: 2.5.3
+* zc.recipe.egg: 2.0.3
 
 ### IKATS API
 
@@ -387,7 +366,7 @@ There is no constraint.
 ### Working with Spark
 
 We currently support Spark 1.6.2 using RDD only
-Here below an example of how to work with Spark in IKATS. You can also have a look at some [IKATS operators](https://github.com/IKATS?q=op-) using spark
+Here is below an example of how to work with Spark in IKATS. You can also have a look at some [IKATS operators](https://github.com/IKATS?q=op-) using Spark
 
 ```python
 from ikats.core.library.spark import ScManager
@@ -414,7 +393,7 @@ try:
 except Exception:
     raise
 finally:
-    # Stop spark context in all cases
+    # Stop Spark context in all cases
     ScManager.stop()
 
 ```
