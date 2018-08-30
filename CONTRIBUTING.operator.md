@@ -365,9 +365,19 @@ There is no constraint.
 
 ### Working with Spark
 
-We currently support Spark 1.6.2 using RDD only
-Here is below an example of how to work with Spark in IKATS. You can also have a look at some [IKATS operators](https://github.com/IKATS?q=op-) using Spark
+Most ikats algorithms are developed using spark to distribute computing on a large amount of data.  
+In some cases, the algorithm is able to choose between a spark and a (single process or) multi process version, according to the processed data size.  
+This should be the rule, so that computing time would be in proportion to data size.  
+**We currently support Spark 1.6.2 using RDD only (will be soon upgraded)** 
 
+The first rule is to use ikats provided spark context, and to surround its usage by a try...except clause to keep the context consistent (see example below)
+
+When using spark, keep in mind that you should never handle too much data (list or dict) in the driver (for example do not collect timeseries data in the driver).  
+Each spark task should moreover work on a chunk of data (if full data is too large) that is in proportion with executor available memory.  
+
+You can also have a look at some [IKATS operators](https://github.com/IKATS?q=op-) using Spark  
+
+**Example of spark usage in IKATS:**
 ```python
 from ikats.core.library.spark import ScManager
 
