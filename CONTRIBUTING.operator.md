@@ -25,7 +25,6 @@ For understanding purposes, the `README.md` file should:
   * Wrappers (entry point of the operator for IKATS call)
   * IKATS API calls used by operator
   * Other resources readings/writings
-* explain some aspects of the internal behaviour (this can be described in another file)
 
 ### catalog_def.json
 
@@ -368,25 +367,27 @@ There is no constraint.
 Most ikats algorithms are developed using spark to distribute computing on a large amount of data.  
 In some cases, the algorithm is able to choose between a spark and a (single process or) multi process version, according to the processed data size.  
 This should be the rule, so that computing time would be in proportion to data size.  
-**We currently support Spark 1.6.2 using RDD only (will be soon upgraded)** 
+**We currently support Spark 2.3.1** 
 
-The first rule is to use ikats provided spark context, and to surround its usage by a try...except clause to keep the context consistent (see example below)
+The first rule is to use ikats provided spark session, and to surround its usage by a try...except clause to keep the context consistent (see example below)
 
 When using spark, keep in mind that you should never handle too much data (list or dict) in the driver (for example do not collect timeseries data in the driver).  
 Each spark task should moreover work on a chunk of data (if full data is too large) that is in proportion with executor available memory.  
+
+Available python classes for working with spark are : SSessionManager (to manage a spark session/context) and SparkUtils (which provides some functions to ease spark use)
 
 You can also have a look at some [IKATS operators](https://github.com/IKATS?q=op-) using Spark  
 
 **Example of spark usage in IKATS:**
 ```python
-from ikats.core.library.spark import ScManager
+from ikats.core.library.spark import SparkUtils, SSessionManager
 
 # ...
 
 # Always set a try/except clause to make the context consistent
 try:
   # Get Spark Context
-  spark_context = ScManager.get()
+  spark_context = SSessionManager.get_context()
 
   # From a list of timeseries
   rdd_ts_info = spark_context.parallelize(ts_list, max(8, len(ts_list)))
@@ -404,7 +405,7 @@ except Exception:
     raise
 finally:
     # Stop Spark context in all cases
-    ScManager.stop()
+    SSessionManager.stop()
 
 ```
 
