@@ -14,7 +14,7 @@ IKATS project is composed of following github repositories:
 - _IKATS operators_:
   - [op-*](https://github.com/IKATS?q=op-): list of all IKATS operators
 - _IKATS viztools_:
-  - [vt-*](https://github.com/IKATS?q=op-): list of all IKATS viztools (results visualization tools)
+  - [vt-*](https://github.com/IKATS?q=vt-): list of all IKATS viztools (results visualization tools)
 
 ## Logical infrastructure
 
