@@ -12,11 +12,11 @@ There is also a [community and a commercial support](https://ikats.org/support.h
 
 ## Get started with IKATS
 
-We provide a demonstration product, the IKATS Sandbox. It's a limited demonstration setup of an IKATS full system. All IKATS components runs in a single machine with a docker-compose deployment.
+We provide a demonstration product, the IKATS Sandbox. It's a limited demonstration setup of an IKATS full system. All IKATS components run in a single machine with a docker-compose deployment.
 
 You could try it by following the instructions at the [IKATS Sandbox](https://github.com/IKATS/ikats-sandbox) repository.
 
-<!-- The source of the following par should be in sync with CONTRIBUTING.md -->
+<!-- The source of the following part should be in sync with CONTRIBUTING.md -->
 ## Contributing to IKATS
 
 We love pull requests from everyone.
