@@ -34,3 +34,7 @@ For any matters, You could ask question to the [dev Team](mailto:dev@ikats.org)
 ## Architecture
 
 An explanation of the internal architecture is detailed [here](architecture.md)
+
+## Release note
+
+You can have more details about releases [here](CHANGELOG.md)
