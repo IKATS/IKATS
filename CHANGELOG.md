@@ -1,6 +1,24 @@
 # Release Notes
 
-## 0.11.0 - 2018-10-16
+## Version 0.12.0 - 2018-11-13
+ 
+### Improvements
+* **gui-builder**: modified parameters order for 'Import TS' operator
+* **gui-builder**: Reworked workflow saving menu and messages
+* **ikats-datamodel**: added unique constraint on name for worflow SQL table
+* **ikats_standalone**: added scale operator
+* **ikats_standalone**: added front nginx / reverse proxy
+* **ikats_standalone**: added network configuration for devKit
+
+
+### Fixes
+* **gui**: fixed bad init on container restart
+* **ikats-ingestion**: fixed vulnerability in com.fasterxml.jackson.core
+* **ikats-sandbox**: fixed changelog location
+* **ikats_standalone**: updated way to provide version after reloading viztools
+---
+
+## Version 0.11.0 - 2018-10-16
 
 ### Improvements
 
