@@ -124,6 +124,7 @@ To develop a VizTool, there are few prerequisites:
 * Your contribution has to extend(implement) the [`VizTool` class](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizTool.js) as [template provided in Git repository (latest version)](https://github.com/IKATS/gui-builder/blob/master/src/js/VizModule/VizToolsImplems/ExampleTemplate.js)
 * You should only use available javascript libraries in the IKATS GUI or package your own libraries and declare them into the [manifest.json](#manifestjson)
   * List of available javascript libraries is available [here](https://github.com/IKATS/gui-builder/NOTICE)
+* Use relative length instead of fixed length for the visualisation to keep the viztool responsive
 
 ### JS API Explanation
 
